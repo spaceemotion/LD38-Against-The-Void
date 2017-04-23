@@ -15,6 +15,11 @@ public class Container : MonoBehaviour {
         _damage += damage;
 
         if (_damage >= Health) {
+            // If we're an enemy, increase statistic
+            if (GetComponent<Enemy> () != null) {
+                PlayerController.Instance.DamageDealt += Mathf.RoundToInt (Health);
+            }
+
             Destroy (gameObject);
 
             foreach (var item in items) {

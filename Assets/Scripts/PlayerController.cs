@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AudioSource))]
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour {
     public TextMeshProUGUI MoneyLabel;
     public GameObject Visualizer;
     public LayerMask InfoLayer;
+    public Text Highscore;
 
 
     private int buildMatTintColorId;
@@ -54,6 +56,12 @@ public class PlayerController : MonoBehaviour {
     private Collider _collider;
     private Rigidbody body;
     private Vector3 force;
+
+    private int platformsBuilt;
+    private int buildingsBuilt;
+
+    [System.NonSerialized]
+    public int DamageDealt;
 
     private bool doBuild;
     private bool doShowInfo;
@@ -134,7 +142,7 @@ public class PlayerController : MonoBehaviour {
             mousePos.y - posOnScreen.y, 0, mousePos.x - posOnScreen.x
         ), Vector3.right);
 
-        lerpHealth = Mathf.Lerp (realHealth, lerpHealth, Time.deltaTime * HealthLerpSpeed);
+        lerpHealth = Mathf.Lerp (lerpHealth, realHealth, Time.deltaTime * HealthLerpSpeed);
         HealthBar.localScale = new Vector3((lerpHealth / Health) + 0.001f, 1, 1);
     }
 
@@ -222,6 +230,9 @@ public class PlayerController : MonoBehaviour {
 
                     doBuild = false;
                     Money -= CurrentBuilding.Money;
+
+                    buildingsBuilt++;
+
                     // TODO ca-tching
                 }
             } else if (lastHighlight != null) {
@@ -253,6 +264,8 @@ public class PlayerController : MonoBehaviour {
                         // reset for next platform
                         lastPlatformHighlight = null;
                         platformRenderer = null;
+
+                        platformsBuilt++;
                     }
                 }
             } else {
@@ -412,6 +425,7 @@ public class PlayerController : MonoBehaviour {
             Time.timeScale = 0;
 
             AudioSource.PlayClipAtPoint (GameOverSound, transform.position);
+            Highscore.text = "" + ((Money + DamageDealt + buildingsBuilt) - platformsBuilt + EnemySpawner.WaveNum);
         }
     }
 
