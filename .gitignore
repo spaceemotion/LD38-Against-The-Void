@@ -44,5 +44,11 @@ sysinfo.txt
 .DS_Store
 
 # Mono-Develop Auto-Save files
-*.cs~
+*~
+
+# Ableton live data
+*.asd*
+
+# Cinema 4D
 */backup/*
+*.c4d*
