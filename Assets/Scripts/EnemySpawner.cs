@@ -17,12 +17,12 @@ public class EnemySpawner : MonoBehaviour {
 
     void Start () {
         WaveLabel.text = "";
+        WaveNum = 0;
 
         StartCoroutine (Spawn ());
     }
 
     IEnumerator Spawn () {
-        // TODO check player death
         for (int i = 0, h = 1 ;; i++) {
             if (i >= Waves.Length) {
                 i = 0;
